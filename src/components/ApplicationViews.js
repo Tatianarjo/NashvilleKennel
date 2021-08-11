@@ -6,37 +6,49 @@ import { LocationList } from "./location/LocationList"
 import { LocationProvider } from "./location/LocationProvider"
 import { CustomerList } from "./customer/CustomerList"
 import { CustomerProvider } from "./customer/CustomerProvider"
-import { EmployeeList} from "./employee/EmployeeList"
+import { EmployeeList } from "./employee/EmployeeList"
 import { EmployeeProvider } from "./employee/EmployeeProvider"
+import { AnimalForm } from "./animal/AnimalForm"
+
 
 export const ApplicationViews = () => {
     return (
         <>
-            {/* Render the location list when http://localhost:3000/ */}
+            {/* Render the location list when http://localhost:3000/ Thisis the NSS Kennels Link*/}
             <LocationProvider>
-                <Route exact path="/">
-                    <LocationList />
-                </Route>
+                <EmployeeProvider>
+                    <AnimalProvider>
+                        <CustomerProvider>
+
+
+                            <Route path="/">
+                                <LocationList />
+                            </Route>
+
+
+                            {/* This is the Animals Link.Render the animal list when http://localhost:3000/animals */}
+                            <Route exact path="/animals">
+                                <AnimalList />
+                            </Route>
+
+                            <Route path="/animals/create">
+                                <AnimalForm />
+                            </Route>
+
+                            <Route path="/customers">
+                                <CustomerList />
+                            </Route>
+
+                            <Route path="/employees">
+                                <EmployeeList />
+                            </Route>
+                        </CustomerProvider>
+
+                    </AnimalProvider>
+
+                </EmployeeProvider>
+
             </LocationProvider>
-
-            {/* Render the animal list when http://localhost:3000/animals */}
-            <AnimalProvider>
-                <Route path="/animals">
-                    <AnimalList />
-                </Route>
-            </AnimalProvider>
-
-            <CustomerProvider>
-                <Route path="/customers">
-                    <CustomerList />
-                </Route>
-            </CustomerProvider>
-
-            <EmployeeProvider>
-                <Route path="/employees">
-                    <EmployeeList />
-                </Route>
-            </EmployeeProvider>
         </>
     )
 }
