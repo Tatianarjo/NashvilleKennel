@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from "react"
+import { useHistory } from 'react-router-dom'
 import { EmployeeContext } from "./EmployeeProvider"
 import "./Employee.css"
 
@@ -12,9 +13,18 @@ export const EmployeeList = () => {
     getEmployees()
   }, [])
 
+  const history = useHistory()
+
 
   return (
-    <section className="employees">
+    <>
+    <h2>Employees</h2>
+    <button onClick={
+      () => history.push("/employees/create")
+    }>
+      Add Employee
+    </button>
+    <div className="employees">
       {
         employees.map(employee => {
           return (
@@ -29,6 +39,7 @@ export const EmployeeList = () => {
           )
         })
       }
-    </section>
+    </div>
+    </>
   )
-}
+    }

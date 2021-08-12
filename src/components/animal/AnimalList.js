@@ -1,8 +1,8 @@
 import React, { useContext, useEffect } from "react"
+import { useHistory } from 'react-router-dom'
 import { AnimalContext } from "./AnimalProvider"
 import "./Animal.css"
 // Add this import at the top
-import { useHistory } from 'react-router-dom'
 
 
 
