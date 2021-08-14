@@ -1,12 +1,12 @@
+import { useHistory, Link } from 'react-router-dom'
 import React, { useContext, useEffect } from "react"
-import { useHistory } from 'react-router-dom'
 import { AnimalContext } from "./AnimalProvider"
 import "./Animal.css"
-// Add this import at the top
-
-
 
 export const AnimalList = () => {
+  // Invoke the useHistory() hook function
+  
+  const history = useHistory()
   // This state changes when `getAnimals()` is invoked below
   const { animals, getAnimals } = useContext(AnimalContext)
 
@@ -16,31 +16,27 @@ export const AnimalList = () => {
     getAnimals()
   }, [])
 
-  const history = useHistory()
+
   return (
     <>
-      <h2>Animals</h2>
-      <button onClick={
-        () => history.push("/animals/create")
-      }>
-            Add Animal
-      </button>
-      <div className="animals">
-      {
-        animals.map(animal => {
-          return (
-            <div className="animal" id={`animal--${animal.id}`}>
-              <div className="animal__name">
-                Name: { animal.name }
+    <h2>Animals</h2>
+    <button onClick={
+      () => history.push("/animals/create")
+    }>
+          Add Animal
+    </button>
+     <section className="animals">
+        {
+          animals.map(animal => {
+            return (
+              <div className="animal">
+               <Link to={`/animals/detail/${animal.id}`} key={animal.id}>{animal.name}</Link>
               </div>
-              <div className="animal__breed">
-                Breed: { animal.breed }
-              </div>
-            </div>
-          )
-        })
-      }
-      </div>
+             
+            )
+          })
+        }
+      </section>
     </>
-)
-    }
+  )
+}
