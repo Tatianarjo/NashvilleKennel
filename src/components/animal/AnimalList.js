@@ -23,7 +23,7 @@ export const AnimalList = () => {
     <button onClick={
       () => history.push("/animals/create")
     }>
-          Add Animal
+          Make Reservation
     </button>
      <section className="animals">
         {
