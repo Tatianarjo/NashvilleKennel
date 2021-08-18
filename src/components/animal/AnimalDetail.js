@@ -13,7 +13,7 @@ export const AnimalDetail = () => {
     */
     const { animalId } = useParams();
 
-const history = useHistory()
+    const history = useHistory()
 
 const handleRelease = () => {
     releaseAnimal(animal.id)
@@ -41,3 +41,5 @@ const handleRelease = () => {
     </section>
     )
 }
+
+//onclick makes it know to do it when you click the button

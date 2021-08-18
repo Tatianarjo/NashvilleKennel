@@ -20,10 +20,10 @@ export const EmployeeDetail = () => {
     }, [employeeId])
 
     return (
-    <section className="animal">
+    <section className="employee">
         <h3 className="employee__name">{ employee.name }</h3>
-        <div className="employee__place">{ employee.place }</div>
-        <div className="employee__location">Location: { employee.location.name }</div>
+        <div className="employee__place">{ employee.location.name }</div>
+        <div className="employee__location">Location: { employee.location.address }</div>
     </section>
     )
 }
