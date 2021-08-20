@@ -19,6 +19,7 @@ import { EmployeeDetail } from "./employee/EmployeeDetail"
 export const ApplicationViews = () => {
     return (
         <>
+        
             {/* Render the location list when http://localhost:3000/ Thisis the NSS Kennels Link*/}
             <LocationProvider>
                 <EmployeeProvider>
@@ -40,12 +41,16 @@ export const ApplicationViews = () => {
                                 <AnimalList />
                             </Route>
 
-                            <Route path="/animals/create">
+                            <Route exact path="/animals/create">
                                 <AnimalForm />
                             </Route>
                          
                             <Route exact path="/animals/detail/:animalId(\d+)">
                                 <AnimalDetail />
+                            </Route>
+
+                            <Route path="/animals/edit/:animalId(\d+)">
+                                <AnimalForm />
                             </Route>
                            
                            <Route exact path="/locations/detail/:locationId(\d+)">

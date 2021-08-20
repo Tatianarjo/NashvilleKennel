@@ -29,7 +29,7 @@ export const AnimalList = () => {
         {
           animals.map(animal => {
             return (
-              <div className="animal">
+              <div className="animal"> 
                <Link to={`/animals/detail/${animal.id}`} key={animal.id}>{animal.name}</Link>
               </div>
              
