@@ -3,10 +3,11 @@ import { LocationContext } from "../location/LocationProvider"
 import { AnimalContext } from "../animal/AnimalProvider"
 import { EmployeeContext } from "../employee/EmployeeProvider"
 import "./Location.css"
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 
 export const LocationForm = () => {
-  const { addLocation } = useContext(LocationContext)
+  const { addLocation, getLocationById, updateLocation } = useContext(LocationContext)
+  const [isLoading, setIsLoading] = useState(true)
   const { employees, getEmployees } = useContext(EmployeeContext)
   const { animals, getAnimals } = useContext(AnimalContext)
 
@@ -23,6 +24,7 @@ export const LocationForm = () => {
     animalId: 0
   });
 
+  const { locationId } = useParams();
   const history = useHistory();
 
   /*
@@ -30,7 +32,17 @@ export const LocationForm = () => {
   and locations state on initialization.
   */
   useEffect(() => {
-    getEmployees().then(getAnimals)
+    getEmployees().then(getAnimals).then(() => {
+      if (locationId) {
+        getLocationById(locationId)
+          .then(location => {
+            setLocation(location)
+            setIsLoading(false)
+          })
+      } else {
+        setIsLoading(false)
+      }
+    })
   }, [])
 
   //when a field changes, update state. The return will re-render and display based on the values in state
@@ -47,8 +59,8 @@ export const LocationForm = () => {
     setLocation(newLocation)
   }
 
-  const handleClickSaveAnimal = (event) => {
-    event.preventDefault() //Prevents the browser from submitting the form
+  const handleSaveLocation = (event) => {
+    // event.preventDefault() //Prevents the browser from submitting the form
 
     const employeeId = parseInt(location.employeeId)
     const animalId = parseInt(location.animalId)
@@ -58,15 +70,30 @@ export const LocationForm = () => {
     } else {
       //Invoke addAnimal passing the new animal object as an argument
       //Once complete, change the url and display the animal list
+      if (locationId) {
+        //update location here
 
-      const newLocation = {
-        name: location.name,
-        address: location.address,
-        employeeId: employeeId,
-        animalId: animalId
+        updateLocation({
+          id: location.id,
+          name: location.name,
+          address: location.address,
+          employeeId: parseInt(location.employeeId),
+          animalId: parseInt(location.animalId)
+        })
+          .then(() => history.push(`/locations/detail/${location.id}`))
+      } else {
+        const newLocation = {
+          name: location.name,
+          address: location.address,
+          employeeId: employeeId,
+          animalId: animalId
+        }
+        addLocation(newLocation)
+          .then(() => {
+
+            history.push("/locations")
+          })
       }
-      addLocation(newLocation)
-        .then(() => history.push("/locations"))
     }
   }
 
@@ -111,9 +138,16 @@ export const LocationForm = () => {
           </select>
         </div>
       </fieldset>
-      <button className="btn btn-primary" onClick={handleClickSaveAnimal}>
-        Save Location
-          </button>
+      <button className="btn btn-primary"
+        disabled={isLoading}
+        onClick={event => {
+          event.preventDefault() //prevent the browser from submitting the form and refreshing the page
+          handleSaveLocation()
+        }
+        }>
+        {locationId ? <>Save Location</> : <>Add Location</>}
+      </button>
     </form>
   )
 }
+
