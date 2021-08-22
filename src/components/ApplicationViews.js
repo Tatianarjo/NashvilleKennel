@@ -42,9 +42,6 @@ export const ApplicationViews = () => {
 
 
                             {/* This is the Animals Link. When I add animals/create that button click changes the URLRender the animal list when http://localhost:3000/animals */}
-                            <Route exact path="/animals">
-                                <AnimalList />
-                            </Route>
 
                             <Route exact path="/animals/create">
                                 <AnimalForm />
@@ -58,7 +55,11 @@ export const ApplicationViews = () => {
                                 <AnimalForm />
                             </Route>
 
-                                                   
+                            <Route exact path="/animals">
+                                <AnimalSearch />
+                                <AnimalList />
+                            </Route>
+                           
                            <Route exact path="/locations/detail/:locationId(\d+)">
                                <LocationDetail />
                            </Route>
