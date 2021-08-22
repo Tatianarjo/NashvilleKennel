@@ -1,6 +1,7 @@
 import { useHistory, Link } from 'react-router-dom'
-import React, { useContext, useEffect } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { AnimalContext } from "./AnimalProvider"
+import { AnimalDetail } from "./AnimalDetail"
 import "./Animal.css"
 
 export const AnimalList = () => {
@@ -8,13 +9,29 @@ export const AnimalList = () => {
   
   const history = useHistory()
   // This state changes when `getAnimals()` is invoked below
-  const { animals, getAnimals } = useContext(AnimalContext)
+  const { animals, getAnimals, searchTerms } = useContext(AnimalContext)
 
-  //useEffect - reach out to the world for something
+  //since you are no longer ALWAYS displaying all of the animals
+  const [ filteredAnimals, setFiltered ] = useState([])
+
+
+  //empty dependency array - useEffect only runs after first render
   useEffect(() => {
-    console.log("AnimalList: useEffect - getAnimals")
     getAnimals()
   }, [])
+
+  //useEffect dependency array with dependencies - will run if dependency changes (state)
+  //searTerms will cause a change
+  useEffect(() => {
+    if (searchTerms !=="") {
+      //if the search field is not blank, display matching animals
+      const subset = animals.filter(animal => animal.name.toLowerCase().includes(searchTerms))
+      setFiltered(subset)
+    } else {
+      //if the search field is blank, display all animals
+      setFiltered(animals)
+    }
+  }, [searchTerms, animals])
 
 
   return (
@@ -23,20 +40,15 @@ export const AnimalList = () => {
     <button onClick={
       () => history.push("/animals/create")
     }>
-          Make Reservation
+          Add Animal
     </button>
      <section className="animals">
         {
-          animals.map(animal => {
-            return (
-              <div className="animal"> 
-               <Link to={`/animals/detail/${animal.id}`} key={animal.id}>{animal.name}</Link>
-              </div>
-             
-            )
+          filteredAnimals.map(animal => {
+            return <AnimalDetail key={animal.id} animal={animal} />
           })
         }
-      </section>
-    </>
-  )
-}
+        </section>
+      </>
+      )
+      }

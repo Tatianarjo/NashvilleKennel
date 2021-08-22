@@ -84,10 +84,13 @@ export const AnimalForm = () => {
           customerId: customerId
         }
         addAnimal(newAnimal)
-          .then(() => history.push("/animals"))
-      }
+          .then(() =>{ 
+          history.push("/animals")
+      })
+    }
     }
   }
+
   return (
     <form className="animalForm">
       <h2 className="animalForm__title">New Animal</h2>
@@ -134,7 +137,8 @@ export const AnimalForm = () => {
         onClick={event => {
           event.preventDefault() // Prevent browser from submitting the form and refreshing the page
           handleSaveAnimal()
-        }}>
+        }
+        }>
         {animalId ? <>Save Animal</> : <>Add Animal</>}
       </button>
     </form>

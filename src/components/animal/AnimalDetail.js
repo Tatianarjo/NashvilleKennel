@@ -12,7 +12,6 @@ export const AnimalDetail = (props) => {
         of 5 in the animalId variable
     */
     const { animalId } = useParams();
-
     const history = useHistory()
 
 const handleRelease = () => {
@@ -33,13 +32,13 @@ const handleRelease = () => {
     return (
         <>
     <section className="animal">
-        <h3 className="animal__name">{ animal.name }</h3>
-        <div className="animal__breed">{ animal.breed }</div>
-        <div className="animal__location">Location: { animal.location.name }</div>
-        <div className="animal__owner">Customer: { animal.customer.name }</div>
+        <h3 className="animal__name">{ props.animal.name }</h3>
+        <div className="animal__breed">{ props.animal.breed }</div>
+        <div className="animal__location">Location: { props.animal.location.name }</div>
+        <div className="animal__owner">Customer: { props.animal.customer.name }</div>
         <button onClick={handleRelease}>Release Animal</button>
         <button onClick={() => {
-            history.push(`/animals/edit/${animal.id}`)
+            history.push(`/animals/edit/${props.animal.id}`)
         }}>Edit</button>
 
     </section>
